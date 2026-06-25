@@ -8,6 +8,7 @@ dependencies = [
     "anthropic>=0.111.0",
     "arxiv>=2.4.1",
     "python-dotenv>=1.2.1",
+    "streamlit>=1.50.0",
     "tavily-python>=0.7.26",
     "wikipedia>=1.4.0",
 ]
