@@ -100,7 +100,10 @@ TOOLS = [
         "name": "twitter_brief",
         "description": (
             "Use when the user asks for a 'Twitter brief' — fetches the most "
-            "recent post from each curated account."
+            "recent post from each curated account. Each result includes a "
+            "'[View tweet](url)' markdown link — always preserve that exact "
+            "markdown link for every tweet you mention in your reply, so the "
+            "user can click through to read it."
         ),
         "input_schema": {
             "type": "object",
@@ -258,7 +261,7 @@ def run_twitter_brief(beat: str = "all") -> str:
                 f"**@{t['handle']}** ({t['date']})\n"
                 f"{t['text']}\n"
                 f"Likes: {t['likes']} | Retweets: {t['retweets']} | Replies: {t['replies']}\n"
-                f"{t['url']}\n"
+                f"[View tweet]({t['url']})\n"
             )
         sections.append("\n".join(lines))
 

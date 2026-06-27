@@ -6,7 +6,9 @@ no logic is duplicated here. API keys stay server-side: research_assistant.py
 loads them via python-dotenv from .env, and Streamlit never sees them directly.
 """
 
+import html
 import os
+import re
 
 import streamlit as st
 
@@ -16,6 +18,31 @@ from research_assistant import run_turn
 # (if set in .env) is available here too.
 APP_PASSWORD = os.environ.get("APP_PASSWORD")
 MAX_MESSAGES_PER_SESSION = 20
+
+_MARKDOWN_LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^\s)]+)\)")
+
+
+def _linkify_new_tab(text: str) -> str:
+    """Convert '[label](url)' markdown links (e.g. from twitter_brief) into
+    HTML anchors that open in a new tab. Everything else is HTML-escaped
+    first, so tweet/page content can't smuggle in arbitrary HTML/script via
+    unsafe_allow_html — only the links we explicitly build below survive."""
+    placeholders = {}
+
+    def stash(match):
+        token = f"\x00LINK{len(placeholders)}\x00"
+        label = html.escape(match.group(1))
+        url = html.escape(match.group(2), quote=True)
+        placeholders[token] = (
+            f'<a href="{url}" target="_blank" rel="noopener noreferrer">{label}</a>'
+        )
+        return token
+
+    stashed = _MARKDOWN_LINK_RE.sub(stash, text)
+    escaped = html.escape(stashed)
+    for token, anchor_html in placeholders.items():
+        escaped = escaped.replace(token, anchor_html)
+    return escaped
 
 st.set_page_config(page_title="Research Assistant", page_icon="🔎")
 st.title("🔎 Research Assistant")
@@ -51,7 +78,7 @@ for message in st.session_state.messages:
         if not text:
             continue
         with st.chat_message("assistant"):
-            st.markdown(text)
+            st.markdown(_linkify_new_tab(text), unsafe_allow_html=True)
         continue
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -80,4 +107,4 @@ if user_input := st.chat_input("Ask a research question..."):
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             reply = run_turn(st.session_state.messages)
-        st.markdown(reply)
+        st.markdown(_linkify_new_tab(reply), unsafe_allow_html=True)
