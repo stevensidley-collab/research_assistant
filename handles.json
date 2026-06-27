@@ -1,0 +1,25 @@
+[
+  { "handle": "karpathy",        "beat": "AI",          "active": true },
+  { "handle": "AndrewYNg",       "beat": "AI",          "active": true },
+  { "handle": "OfficialLoganK",  "beat": "AI",          "active": true },
+  { "handle": "rasbt",           "beat": "AI",          "active": false },
+  { "handle": "sama",            "beat": "AI",          "active": false },
+
+  { "handle": "VitalikButerin",  "beat": "crypto",      "active": true },
+  { "handle": "saylor",          "beat": "crypto",      "active": true },
+  { "handle": "laurashin",       "beat": "crypto",      "active": true },
+  { "handle": "hasufl",          "beat": "crypto",      "active": false },
+  { "handle": "aantonop",        "beat": "crypto",      "active": false },
+
+  { "handle": "morganhousel",    "beat": "fintech",     "active": true },
+  { "handle": "LizAnnSonders",   "beat": "fintech",     "active": true },
+  { "handle": "JustinWolfers",   "beat": "fintech",     "active": true },
+  { "handle": "jessefelder",     "beat": "fintech",     "active": false },
+  { "handle": "spirosmargaris",  "beat": "fintech",     "active": false },
+
+  { "handle": "ianbremmer",      "beat": "geopolitics", "active": true },
+  { "handle": "PeterZeihan",     "beat": "geopolitics", "active": true },
+  { "handle": "FareedZakaria",   "beat": "geopolitics", "active": true },
+  { "handle": "FukuyamaFrancis", "beat": "geopolitics", "active": false },
+  { "handle": "dandrezner",      "beat": "geopolitics", "active": false }
+]
